@@ -1,5 +1,5 @@
-import './style.css';
-import webInit from './fetching';
+import './style.scss';
+import { webInit } from './fetching';
 
 document.addEventListener('DOMContentLoaded', () => {
   webInit();
