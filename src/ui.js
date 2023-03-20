@@ -13,9 +13,12 @@ function createForm() {
 }
 function clearData() {
   const cityDataContainer = document.querySelector('.cityDataContainer');
+  const cityAddData = document.querySelector('.cityAddData');
   const cityMoreDataContainer = document.querySelector('.cityMoreDataContainer');
   cityDataContainer.innerHTML = '';
   cityMoreDataContainer.innerHTML = '';
+  cityAddData.innerHTML = '';
+
   // console.log(cityDataContainer);
 }
 function createDataContainer() {
@@ -27,6 +30,11 @@ function createMoreDataContainer() {
   const cityMoreDataContainer = document.createElement('div');
   cityMoreDataContainer.classList = 'cityMoreDataContainer';
   return cityMoreDataContainer;
+}
+function createCityAddData() {
+  const cityAddData = document.createElement('div');
+  cityAddData.classList = 'cityAddData';
+  return cityAddData;
 }
 function createFooter() {
   const footer = document.createElement('div');
@@ -64,14 +72,14 @@ function displayCityData(data) {
 
     cityDataDiv.classList = 'cityDataDiv';
     const cityNameH2 = document.createElement('h2');
-    const cityTempDiv = document.createElement('div');
-    cityTempDiv.classList = 'cityTempDiv';
+    // const cityTempDiv = document.createElement('div');
+    // cityTempDiv.classList = 'cityTempDiv';
     const cityTemp = document.createElement('h2');
 
     console.log(data.city);
     cityNameH2.innerHTML = `${data.city.name}, ${data.city.country}`;
 
-    const temperature = (data.list[i].main.temp - 273.15).toFixed(1);
+    const temperature = (data.list[i].main.temp).toFixed(1);
     cityTemp.innerHTML = `${temperature} °C`;
     cityDataDiv.appendChild(cityNameH2);
     cityDataDiv.appendChild(date);
@@ -79,10 +87,32 @@ function displayCityData(data) {
     cityDataDiv.appendChild(weatherImg);
     cityDataDiv.appendChild(cityTemp);
     cityDataContainer.appendChild(cityDataDiv);
-    cityDataContainer.appendChild(cityTempDiv);
+    // cityDataContainer.appendChild(cityTempDiv);
+    if (i === 0) {
+      const cityAddData = document.querySelector('.cityAddData');
+      console.log(cityAddData);
+      const sensedTemperature = document.createElement('h2');
+      const cityAddDataDiv = document.createElement('div');
+      const humidity = document.createElement('h2');
+      const windSpeed = document.createElement('h2');
+      const rainChance = document.createElement('h2');
+      cityAddDataDiv.classList = 'cityAddDataDiv';
+      sensedTemperature.classList = 'sensedTemperature';
+      const temp = (data.list[i].main.feels_like).toFixed(1);
+      humidity.textContent = `Humidity: ${data.list[0].main.humidity} %`;
+      sensedTemperature.textContent = `Sensed Temperature: ${temp} °C`;
+      windSpeed.textContent = `Wind Speed: ${data.list[0].wind.speed} km/h`;
+      rainChance.textContent = `Rain chance: ${data.list[0].pop * 100} %`;
+      cityAddDataDiv.appendChild(sensedTemperature);
+      cityAddDataDiv.appendChild(humidity);
+      cityAddDataDiv.appendChild(windSpeed);
+      cityAddDataDiv.appendChild(rainChance);
+      cityAddData.appendChild(cityAddDataDiv);
+      content.appendChild(cityAddData);
+    }
     content.appendChild(cityDataContainer);
   }
 }
 export {
-  createForm, displayCityData, createDataContainer, createMoreDataContainer, createFooter,
+  createForm, displayCityData, createDataContainer, createMoreDataContainer, createFooter, createCityAddData,
 };
