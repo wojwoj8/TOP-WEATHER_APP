@@ -1,12 +1,14 @@
 import './style.scss';
-import { createForm, displayCityData, createDataContainer } from './ui';
+import {
+  createForm, displayCityData, createDataContainer, createMoreDataContainer, createFooter,
+} from './ui';
 
 console.log('Hello');
 // 1fdc7abedf23477ebd14736563f6f941
 async function getForecast(name) {
   console.log(name);
   try {
-    if (name === undefined) {
+    if (name === undefined || name === '') {
       name = 'Kielce';
     }
     // console.log(cityInput);
@@ -18,6 +20,7 @@ async function getForecast(name) {
     const forecastData = await response.json();
     console.log(forecastData);
     displayCityData(forecastData);
+
     return forecastData;
   } catch (err) {
     console.error(err);
@@ -37,9 +40,13 @@ function searchCityListener() {
 
 function webInit() {
   const content = document.querySelector('#content');
+
   content.appendChild(createDataContainer());
-  getForecast('kielce');
   content.appendChild(createForm());
+  content.appendChild(createMoreDataContainer());
+  content.appendChild(createFooter());
+  getForecast('kielce');
+
   searchCityListener();
 
   return content;
